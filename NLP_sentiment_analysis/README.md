@@ -1,18 +1,16 @@
 # Sentiment Analysis Web Application
 
-A web-based sentiment analysis app built with Watson NLP API and Flask. BERT model for the NLP API. Python Flask for web deployement. JavaScript for front end functionaility. 
+A web-based sentiment analysis app built with IBM's Watson NLP API. BERT model for the NLP API. Python Flask for web deployement. JavaScript for front end functionaility. 
 
-## Main Learnings
+### Main Learnings
 - Real-time sentiment analysis using Watson NLP BERT model
 - Bootstrap-styled UI for text input and sentiment analysis
 - Flask backend with dedicated endpoints for sentiment analysis
 - Robust error handling for API failures and invalid inputs
 
-## Potential Future Improvements
-
-- [ ] Implement caching for frequently analyzed texts
-- [ ] Add support for batch sentiment analysis
-- [ ] Add visualization of sentiment scores
+### Might implement later
+- [ ] Caching for frequently analyzed texts
+- [ ] support for batch sentiment analysis
 - [ ] Support for multiple languages
 
 
