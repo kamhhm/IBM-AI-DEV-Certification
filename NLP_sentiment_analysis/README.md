@@ -26,9 +26,7 @@ zzrjt-practice-project-emb-ai/
 │   │   └── sentiment_analysis.py    # Core sentiment analysis module
 │   └── test_sentiment_analysis.py   # Unit tests
 ├── templates/
-│   └── index.html                   # Web interface template
-├── static/
-│   └── mywebscript.js               # Frontend JavaScript
+│   └── index.html                   # Web interface template (includes inline JavaScript)
 ├── flask_server.py                   # Flask application server
 ├── requirements.txt                  # Python dependencies
 ├── LICENSE                           # License file
