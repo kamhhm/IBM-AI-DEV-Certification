@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emotion Detector</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #fff;
+            color: #111;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 80px 24px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 64px;
+            padding-bottom: 48px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .overline {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #666;
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 3rem;
+            font-weight: 500;
+            color: #111;
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            color: #666;
+            margin-top: 8px;
+        }
+
+        .section-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #666;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .input-section { margin-bottom: 32px; }
+
+        textarea {
+            width: 100%;
+            min-height: 140px;
+            padding: 20px;
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            color: #111;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            line-height: 1.7;
+            resize: vertical;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #111;
+        }
+
+        textarea::placeholder { color: #999; }
+
+        .btn {
+            padding: 14px 28px;
+            background: #111;
+            border: none;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .btn:hover { background: #333; }
+        .btn:disabled { background: #ccc; cursor: not-allowed; }
+
+        .loading, .error-message { display: none; margin-top: 32px; }
+        .loading.visible, .error-message.visible { display: block; }
+        
+        .loading { text-align: center; padding: 32px 0; color: #666; font-style: italic; }
+        
+        .error-message {
+            padding: 20px;
+            border: 1px solid #111;
+            text-align: center;
+        }
+
+        .results {
+            display: none;
+            margin-top: 48px;
+            padding-top: 48px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .results.visible { display: block; }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 32px;
+        }
+
+        .results-title {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 1.5rem;
+            font-weight: 500;
+        }
+
+        .dominant-label { font-size: 0.875rem; color: #666; }
+        .dominant-label strong { color: #111; }
+
+        .emotion-list { display: flex; flex-direction: column; }
+
+        .emotion-item {
+            display: grid;
+            grid-template-columns: 100px 1fr 70px;
+            align-items: center;
+            gap: 20px;
+            padding: 16px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .emotion-item:first-child { border-top: 1px solid #f0f0f0; }
+
+        .emotion-name {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 1rem;
+        }
+
+        .emotion-bar-container {
+            height: 3px;
+            background: #f0f0f0;
+        }
+
+        .emotion-bar {
+            height: 100%;
+            background: #111;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .emotion-score {
+            font-family: monospace;
+            font-size: 0.8rem;
+            color: #666;
+            text-align: right;
+        }
+
+        .emotion-item.dominant .emotion-name { font-weight: 600; }
+        .emotion-item.dominant .emotion-score { color: #111; font-weight: 500; }
+
+        footer {
+            text-align: center;
+            padding-top: 48px;
+            margin-top: 64px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        footer a { color: #333; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <p class="overline">Natural Language Processing</p>
+            <h1>Emotion Detector</h1>
+            <p class="subtitle">Analyze sentiment using Watson NLP</p>
+        </header>
+
+        <main>
+            <div class="input-section">
+                <label class="section-label" for="textToAnalyze">Input Text</label>
+                <textarea id="textToAnalyze" placeholder="Enter text to analyze..."></textarea>
+            </div>
+
+            <button class="btn" onclick="analyzeEmotion()">Analyze</button>
+
+            <div class="loading" id="loading">Processing...</div>
+
+            <div class="error-message" id="errorMessage">
+                <p>Please provide valid text for analysis.</p>
+            </div>
+
+            <div class="results" id="results">
+                <div class="results-header">
+                    <span class="results-title">Analysis</span>
+                    <span class="dominant-label">Dominant: <strong id="dominantText">-</strong></span>
+                </div>
+
+                <div class="emotion-list">
+                    <div class="emotion-item" id="joyItem">
+                        <span class="emotion-name">Joy</span>
+                        <div class="emotion-bar-container"><div class="emotion-bar" id="joyBar"></div></div>
+                        <span class="emotion-score" id="joyScore">0.0000</span>
+                    </div>
+                    <div class="emotion-item" id="angerItem">
+                        <span class="emotion-name">Anger</span>
+                        <div class="emotion-bar-container"><div class="emotion-bar" id="angerBar"></div></div>
+                        <span class="emotion-score" id="angerScore">0.0000</span>
+                    </div>
+                    <div class="emotion-item" id="sadnessItem">
+                        <span class="emotion-name">Sadness</span>
+                        <div class="emotion-bar-container"><div class="emotion-bar" id="sadnessBar"></div></div>
+                        <span class="emotion-score" id="sadnessScore">0.0000</span>
+                    </div>
+                    <div class="emotion-item" id="fearItem">
+                        <span class="emotion-name">Fear</span>
+                        <div class="emotion-bar-container"><div class="emotion-bar" id="fearBar"></div></div>
+                        <span class="emotion-score" id="fearScore">0.0000</span>
+                    </div>
+                    <div class="emotion-item" id="disgustItem">
+                        <span class="emotion-name">Disgust</span>
+                        <div class="emotion-bar-container"><div class="emotion-bar" id="disgustBar"></div></div>
+                        <span class="emotion-score" id="disgustScore">0.0000</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>Built with IBM Watson NLP</p>
+        </footer>
+    </div>
+
+    <script src="./static/mywebscript.js"></script>
+</body>
+</html>
