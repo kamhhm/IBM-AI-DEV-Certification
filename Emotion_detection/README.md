@@ -1,4 +1,4 @@
-# Emotion Detection Web Application Lab
+# Emotion Detection Lab
 
 A web-based emotion detection app built with Watson NLP API and Flask. Detects five emotions from text input and identifies the dominant emotion.
 
