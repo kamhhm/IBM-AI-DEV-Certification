@@ -1,0 +1,30 @@
+# RAG for Tech Docs - Dependencies
+# ================================
+
+# Web Framework
+Flask==3.1.0
+Flask-Cors==5.0.0
+Werkzeug>=3.0.0
+
+# Environment Management
+python-dotenv==1.0.0
+
+# LangChain & RAG
+langchain==0.3.7
+langchain-community>=0.3.0
+
+# Vector Store
+chromadb==0.4.24
+
+# PDF Processing
+pypdf==5.2.0
+
+# HuggingFace & ML
+huggingface-hub>=0.16.4
+torch>=2.0.1
+sentence-transformers==2.2.2
+InstructorEmbedding==1.0.0
+
+# Utilities
+pydantic>=2.0.0
+tiktoken==0.8.0
