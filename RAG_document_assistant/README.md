@@ -1,17 +1,17 @@
 # RAG Document Assistant
 
-> Part of the [IBM AI Developer Professional Certificate](https://www.coursera.org/professional-certificates/applied-artifical-intelligence-ibm-watson-ai)
-
-A tool to help developers learn technical documentation faster. Upload any PDF—API docs, SDK guides, or technical specs—and ask questions in plain English. The app uses Retrieval-Augmented Generation (RAG) to find relevant sections and generate accurate answers.
+A tool to help me (and devs) to accurately query and learn technical documentation faster.
 
 Built with Flask on the backend, using LangChain to orchestrate the RAG pipeline. Documents are embedded using HuggingFace's sentence-transformers and stored in ChromaDB for semantic search. The LLM (Falcon-7B via HuggingFace) generates answers based on retrieved context.
 
-## Features
+## How It Works
 
-- Upload PDF documents
-- Ask questions and get AI-generated answers
-- Uses semantic search to find relevant content
-- Maintains conversation history
+1. **Document Upload**: PDF is loaded and split into chunks
+2. **Embedding**: Chunks are converted to vectors using sentence-transformers
+3. **Storage**: Vectors are stored in ChromaDB
+4. **Query**: User question is embedded and similar chunks are retrieved
+5. **Answer**: LLM generates answer using retrieved context
+
 
 ## Project Structure
 
@@ -44,13 +44,7 @@ Built with Flask on the backend, using LangChain to orchestrate the RAG pipeline
 
 4. Open http://localhost:8000
 
-## How It Works
 
-1. **Document Upload**: PDF is loaded and split into chunks
-2. **Embedding**: Chunks are converted to vectors using sentence-transformers
-3. **Storage**: Vectors are stored in ChromaDB
-4. **Query**: User question is embedded and similar chunks are retrieved
-5. **Answer**: LLM generates answer using retrieved context
 
 ## API Endpoints
 
