@@ -1,4 +1,4 @@
-# RAG Document Assistant
+# RAG for technical documentation Assistant
 
 A tool to help me (and devs) to accurately query and learn technical documentation faster.
 
